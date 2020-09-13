@@ -1,13 +1,21 @@
 import requests
+import os
+import urllib.parse
 from flask import Flask
 from flask import render_template
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+db_string = os.environ['dbstring']
+params = urllib.parse.quote_plus(db_string)
+
+app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather.db'
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SECRET_KEY'] = 'supersecret'
 
 db=SQLAlchemy(app)
 
